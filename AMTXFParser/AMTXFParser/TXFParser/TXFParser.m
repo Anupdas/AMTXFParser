@@ -12,13 +12,6 @@
 static NSString *const kBodyText = @"TXFText";
 static NSString *const kArray    = @"TXFArray";
 
-typedef enum {
-    TXFParsingTypeObject = 0,
-    TXFParsingTypeArray,
-    TXFParsingTypeArrayObject,
-    TXFParsingTypeChunk
-}TXFParsingType;
-
 @interface TXFParser ()
 
 /*Temporary variable to hold values of an object*/
@@ -86,7 +79,7 @@ typedef enum {
         }else if([string hasPrefix:@"/"]){
             [self didEndParsingTag:[string substringFromIndex:1]];
         }else{
-            [self didFindBodyValue:string];
+            //[self didFindBodyValue:string];
         }
     }]; return self.dict;
 }
@@ -127,110 +120,65 @@ typedef enum {
 }
 
 - (void)parserFoundObjectEndForKey:(NSString *)key{
-    id value = self.dict;
-    [self pop];
-    /*
-     If keystack has contents, then we need to append objects
-     */
-    /*
-    Else this key is going to be the root object
-    So Wrap the object with key and assign to the dictionary
-    */
+    NSDictionary *dict = self.dict;
+    
+    //Remove the last value of stack
+    [self.stack removeLastObject];
+    
+    //Load the previous object as dict
+    self.dict = [self.stack lastObject];
+    
+    //The stack has contents, then we need to append objects
     if ([self.stack count]) {
-        [self addObject:value forKey:key];
+        [self addObject:dict forKey:key];
     }else{
-        self.dict = [self wrapObject:value withKey:key];
+        //This is root object,wrap with key and assign output
+        self.dict = (NSMutableDictionary *)[self wrapObject:dict withKey:key];
     }
 }
-
-#pragma mark -
-/*
- Clear the temporary variables and clear stacks
- */
-- (void)pop {
-    [self.stack removeLastObject];
-    self.dict = [self.stack lastObject];
-}
-
 
 #pragma mark - Add Objects after finding end tag
 
-- (void)addArrayObject:(id)value forKey:(NSString *)key{
-    id array = self.dict[kArray];
-    if (!array) {
-        array = [NSMutableArray array];
-    }
+- (void)addObject:(id)dict forKey:(NSString *)key{
+    //If there is no value, bailout
+    if (!dict) return;
     
-    NSDictionary *dict = [self wrapObject:value withKey:key];
-    [array addObject:dict];
-    self.dict[kArray] = array;
-}
-
-- (void)addObject:(id)value forKey:(NSString *)key{
-    /*If there is no value, bailout*/
-    if (!value) return;
+    //Check if the dict already has a value for key array.
+    NSMutableArray *array =  self.dict[kArray];
     
-    BOOL isArray = NO;//[self isAnArrayKey:key];
-    if (isArray) {
-        [self addArrayObject:value forKey:key];
-        return;
-    }
-    
-    /*Checks if it is an array or dictionary*/
-    
-    
-    /*
-     Check if the dict already has a value for key array.
-     */
-    id prev =  self.dict[kArray];// self.dict[key];
-    
-    /*
-     If array key is not found look for another object with same key
-     */
-    if (!prev) {
-        prev = self.dict[key];
+    //If array key is not found look for another object with same key
+    if (array) {
+        //Array found add current object after wrapping with key
+        NSDictionary *currentDict = [self wrapObject:dict withKey:key];
+        [array addObject:currentDict];
     }else{
-        isArray = YES;
-    }
-    
-    /*
-     There is a prev value for the same key. That means we need to wrap that object in a collection.
-     1. Remove the object from dictionary,
-     2. Wrap it with its key
-     3. Add to array
-     4. Save the array back to dict
-     */
-    if (prev && !isArray) {
-        [self.dict removeObjectForKey:key];
-        NSMutableArray *array = [NSMutableArray new];
-        id obj = [self wrapObject:prev withKey:key];
-        [array addObject:obj];
-        self.dict[kArray] = array;
-        prev = array;
-        isArray = YES;
-    }
-    
-    /*
-     If Array flat is set, means we found an array
-     1. Add the object after wrapping it with key
-     2. Save the array back to the dict
-     */
-    if (isArray) {
-        NSMutableArray *array = (NSMutableArray *)prev;
-        id obj = [self wrapObject:value withKey:key];
-        [array addObject:obj];
-        self.dict[kArray] = array;
-    }else{
-        self.dict[key] = value;
+        id prevObj = self.dict[key];
+        if (prevObj) {
+            /*
+             There is a prev value for the same key. That means we need to wrap that object in a collection.
+             1. Remove the object from dictionary,
+             2. Wrap it with its key
+             3. Add the prev and current value to array
+             4. Save the array back to dict
+             */
+            [self.dict removeObjectForKey:key];
+            NSDictionary *prevDict = [self wrapObject:prevObj withKey:key];
+            NSDictionary *currentDict = [self wrapObject:dict withKey:key];
+            self.dict[kArray] = [@[prevDict,currentDict] mutableCopy];
+            
+        }else{
+            //Simply add object to dict
+            self.dict[key] = dict;
+        }
     }
 }
 
 /*Wraps Object with a key for the serializer to generate txf tag*/
-- (NSMutableDictionary *)wrapObject:(id)obj withKey:(NSString *)key{
+- (NSDictionary *)wrapObject:(id)obj withKey:(NSString *)key{
     if (!key ||!obj) {
-        return [@{} mutableCopy];
+        return @{};
     }
-    return [@{key:obj} mutableCopy];
+    return @{key:obj};
 }
 
 @end
