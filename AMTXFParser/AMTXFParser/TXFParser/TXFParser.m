@@ -59,22 +59,36 @@ typedef enum {
 //    return self.dict;
 //}
 
+//- (id)objectFromString:(NSString *)txfString{
+//    NSScanner *scanner = [[NSScanner alloc] initWithString:txfString];
+//    NSString *matchedNewlines = nil;
+//    while (![scanner isAtEnd]) {
+//        [scanner scanUpToCharactersFromSet:[NSCharacterSet newlineCharacterSet]
+//                                intoString:&matchedNewlines];
+//        if ([matchedNewlines hasPrefix:@"#"]){
+//            [self didStartParsingTag:[matchedNewlines substringFromIndex:1]];
+//        }else if([matchedNewlines hasPrefix:@"$"]){
+//            [self didFindKeyValuePair:[matchedNewlines substringFromIndex:1]];
+//        }else if([matchedNewlines hasPrefix:@"/"]){
+//            [self didEndParsingTag:[matchedNewlines substringFromIndex:1]];
+//        }else{
+//            [self didFindBodyValue:matchedNewlines];
+//        }
+//    }return self.dict;
+//}
+
 - (id)objectFromString:(NSString *)txfString{
-    NSScanner *scanner = [[NSScanner alloc] initWithString:txfString];
-    NSString *matchedNewlines = nil;
-    while (![scanner isAtEnd]) {
-        [scanner scanUpToCharactersFromSet:[NSCharacterSet newlineCharacterSet]
-                                intoString:&matchedNewlines];
-        if ([matchedNewlines hasPrefix:@"#"]){
-            [self didStartParsingTag:[matchedNewlines substringFromIndex:1]];
-        }else if([matchedNewlines hasPrefix:@"$"]){
-            [self didFindKeyValuePair:[matchedNewlines substringFromIndex:1]];
-        }else if([matchedNewlines hasPrefix:@"/"]){
-            [self didEndParsingTag:[matchedNewlines substringFromIndex:1]];
+    [txfString enumerateLinesUsingBlock:^(NSString *string, BOOL *stop) {
+        if ([string hasPrefix:@"#"]) {
+            [self didStartParsingTag:[string substringFromIndex:1]];
+        }else if([string hasPrefix:@"$"]){
+            [self didFindKeyValuePair:[string substringFromIndex:1]];
+        }else if([string hasPrefix:@"/"]){
+            [self didEndParsingTag:[string substringFromIndex:1]];
         }else{
-            [self didFindBodyValue:matchedNewlines];
+            [self didFindBodyValue:string];
         }
-    }return self.dict;
+    }]; return self.dict;
 }
 
 #pragma mark -
@@ -212,11 +226,11 @@ typedef enum {
 }
 
 /*Wraps Object with a key for the serializer to generate txf tag*/
-- (NSMutableDictionary *)wrapObject:(id)value withKey:(NSString *)key{
-    if (!key ||!value) {
+- (NSMutableDictionary *)wrapObject:(id)obj withKey:(NSString *)key{
+    if (!key ||!obj) {
         return [@{} mutableCopy];
     }
-    return [@{key:value} mutableCopy];
+    return [@{key:obj} mutableCopy];
 }
 
 @end
