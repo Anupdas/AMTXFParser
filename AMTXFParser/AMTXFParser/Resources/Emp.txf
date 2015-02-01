@@ -1,0 +1,39 @@
+#Employees
+$Id=12345
+#Employee
+$Id=101
+$Name=Employee 01
+$Designation=Developer
+#Departments
+$Id=1
+#Department
+$Id=201
+$Name=iOS
+/Department
+/Departments
+/Employee
+#Employee
+$Id=102
+$Name=Employee 02
+$Designation=Designer
+#Departments
+$Id=2
+#Department
+$Id=202
+$Name=Android
+/Department
+/Departments
+/Employee
+#Employee
+$Id=103
+$Name=Employee 03
+$Designation=Tester
+#Departments
+$Id=3
+#Department
+$Id=203
+$Name=Windows
+/Department
+/Departments
+/Employee
+/Employees

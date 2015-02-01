@@ -14,6 +14,12 @@
 		6EE774801A7DDA480097D0CC /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6EE7747F1A7DDA480097D0CC /* Images.xcassets */; };
 		6EE774831A7DDA480097D0CC /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6EE774811A7DDA480097D0CC /* LaunchScreen.xib */; };
 		6EE7748F1A7DDA480097D0CC /* AMTXFParserTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EE7748E1A7DDA480097D0CC /* AMTXFParserTests.m */; };
+		6EE774AE1A7DDB050097D0CC /* NSObject+TXFWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EE7749A1A7DDB050097D0CC /* NSObject+TXFWriter.m */; };
+		6EE774AF1A7DDB050097D0CC /* NSString+TXFParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EE7749C1A7DDB050097D0CC /* NSString+TXFParser.m */; };
+		6EE774B01A7DDB050097D0CC /* Emp.txf in Resources */ = {isa = PBXBuildFile; fileRef = 6EE7749E1A7DDB050097D0CC /* Emp.txf */; };
+		6EE774B11A7DDB050097D0CC /* Employees.txf in Resources */ = {isa = PBXBuildFile; fileRef = 6EE7749F1A7DDB050097D0CC /* Employees.txf */; };
+		6EE774BA1A7DDB050097D0CC /* TXFParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EE774AA1A7DDB050097D0CC /* TXFParser.m */; };
+		6EE774BB1A7DDB050097D0CC /* TXFWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EE774AD1A7DDB050097D0CC /* TXFWriter.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,6 +46,16 @@
 		6EE774881A7DDA480097D0CC /* AMTXFParserTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AMTXFParserTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6EE7748D1A7DDA480097D0CC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6EE7748E1A7DDA480097D0CC /* AMTXFParserTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AMTXFParserTests.m; sourceTree = "<group>"; };
+		6EE774991A7DDB050097D0CC /* NSObject+TXFWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+TXFWriter.h"; sourceTree = "<group>"; };
+		6EE7749A1A7DDB050097D0CC /* NSObject+TXFWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+TXFWriter.m"; sourceTree = "<group>"; };
+		6EE7749B1A7DDB050097D0CC /* NSString+TXFParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+TXFParser.h"; sourceTree = "<group>"; };
+		6EE7749C1A7DDB050097D0CC /* NSString+TXFParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+TXFParser.m"; sourceTree = "<group>"; };
+		6EE7749E1A7DDB050097D0CC /* Emp.txf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Emp.txf; sourceTree = "<group>"; };
+		6EE7749F1A7DDB050097D0CC /* Employees.txf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Employees.txf; sourceTree = "<group>"; };
+		6EE774A91A7DDB050097D0CC /* TXFParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TXFParser.h; sourceTree = "<group>"; };
+		6EE774AA1A7DDB050097D0CC /* TXFParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TXFParser.m; sourceTree = "<group>"; };
+		6EE774AC1A7DDB050097D0CC /* TXFWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TXFWriter.h; sourceTree = "<group>"; };
+		6EE774AD1A7DDB050097D0CC /* TXFWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TXFWriter.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,6 +97,10 @@
 		6EE774711A7DDA480097D0CC /* AMTXFParser */ = {
 			isa = PBXGroup;
 			children = (
+				6EE774981A7DDB050097D0CC /* Categories */,
+				6EE7749D1A7DDB050097D0CC /* Resources */,
+				6EE774A81A7DDB050097D0CC /* TXFParser */,
+				6EE774AB1A7DDB050097D0CC /* TXFWriter */,
 				6EE774761A7DDA480097D0CC /* AppDelegate.h */,
 				6EE774771A7DDA480097D0CC /* AppDelegate.m */,
 				6EE774791A7DDA480097D0CC /* ViewController.h */,
@@ -117,6 +137,44 @@
 				6EE7748D1A7DDA480097D0CC /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		6EE774981A7DDB050097D0CC /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				6EE774991A7DDB050097D0CC /* NSObject+TXFWriter.h */,
+				6EE7749A1A7DDB050097D0CC /* NSObject+TXFWriter.m */,
+				6EE7749B1A7DDB050097D0CC /* NSString+TXFParser.h */,
+				6EE7749C1A7DDB050097D0CC /* NSString+TXFParser.m */,
+			);
+			path = Categories;
+			sourceTree = "<group>";
+		};
+		6EE7749D1A7DDB050097D0CC /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				6EE7749E1A7DDB050097D0CC /* Emp.txf */,
+				6EE7749F1A7DDB050097D0CC /* Employees.txf */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		6EE774A81A7DDB050097D0CC /* TXFParser */ = {
+			isa = PBXGroup;
+			children = (
+				6EE774A91A7DDB050097D0CC /* TXFParser.h */,
+				6EE774AA1A7DDB050097D0CC /* TXFParser.m */,
+			);
+			path = TXFParser;
+			sourceTree = "<group>";
+		};
+		6EE774AB1A7DDB050097D0CC /* TXFWriter */ = {
+			isa = PBXGroup;
+			children = (
+				6EE774AC1A7DDB050097D0CC /* TXFWriter.h */,
+				6EE774AD1A7DDB050097D0CC /* TXFWriter.m */,
+			);
+			path = TXFWriter;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -200,6 +258,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				6EE7747E1A7DDA480097D0CC /* Main.storyboard in Resources */,
+				6EE774B01A7DDB050097D0CC /* Emp.txf in Resources */,
+				6EE774B11A7DDB050097D0CC /* Employees.txf in Resources */,
 				6EE774831A7DDA480097D0CC /* LaunchScreen.xib in Resources */,
 				6EE774801A7DDA480097D0CC /* Images.xcassets in Resources */,
 			);
@@ -220,8 +280,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				6EE7747B1A7DDA480097D0CC /* ViewController.m in Sources */,
+				6EE774AE1A7DDB050097D0CC /* NSObject+TXFWriter.m in Sources */,
+				6EE774BB1A7DDB050097D0CC /* TXFWriter.m in Sources */,
 				6EE774781A7DDA480097D0CC /* AppDelegate.m in Sources */,
+				6EE774AF1A7DDB050097D0CC /* NSString+TXFParser.m in Sources */,
 				6EE774751A7DDA480097D0CC /* main.m in Sources */,
+				6EE774BA1A7DDB050097D0CC /* TXFParser.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
