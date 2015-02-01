@@ -1,8 +1,8 @@
 //
-//  TXFWriter.m
-//  AMDTXFParser
+//  ViewController.m
+//  AMTXFParser
 //
-//  Created by Anoop Mohandas on 28/01/15.
+//  Created by Anoop Mohandas on 01/02/15.
 //  Copyright (c) 2015 Anoop Mohandas. All rights reserved.
 //
 
@@ -10,7 +10,6 @@
 
 static NSString *const kTXFText  = @"TXFText";
 static NSString *const kArray    = @"TXFArray";
-static NSString *const kTXFNull  = @"$#!";
 
 @implementation TXFWriter
 
@@ -42,12 +41,7 @@ static NSString *const kTXFNull  = @"$#!";
                 if ([obj hasPrefix:@"@"]) {
                     [string appendFormat:@"%@\n",str];
                 }else{
-                    /*This is optional, remove to improve writing speed*/
-                    if ([obj isEqualToString:kTXFNull]) {
-                        [string appendString:@"&0\n\n"];
-                    }else{
-                        [string appendFormat:@"&%ld\n%@\n",(unsigned long)str.length,str];
-                    }
+                    [string appendFormat:@"&%ld\n%@\n",(unsigned long)str.length,str];
                 }
             }else{
                 [string appendFormat:@"$%@=%@\n",key,obj];
@@ -68,11 +62,11 @@ static NSString *const kTXFNull  = @"$#!";
         [string appendString:[self stringFromDictionary:dict withKey:nil]];
     }];
     
-    //If key is TXFArray donot write that key but only the body content
-    if (![aKey isEqualToString:kArray]) {
-        return [NSString stringWithFormat:@"#%@\n%@/%@\n",aKey,string,aKey];
-    }else{
+    //If the key is TXFArray don't write that key but only the body content
+    if ([aKey isEqualToString:kArray]) {
         return string;
+    }else{
+        return [NSString stringWithFormat:@"#%@\n%@/%@\n",aKey,string,aKey];
     }
 }
 

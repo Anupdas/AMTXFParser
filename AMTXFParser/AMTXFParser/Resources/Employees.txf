@@ -8,7 +8,7 @@ $Designation=Developer
 $Id=1
 #Department
 $Id=201
-$Name=iOS
+$Name=Development
 /Department
 /Departments
 /Employee
@@ -20,7 +20,7 @@ $Designation=Designer
 $Id=2
 #Department
 $Id=202
-$Name=Android
+$Name=UI Design
 /Department
 /Departments
 /Employee
@@ -32,7 +32,7 @@ $Designation=Tester
 $Id=3
 #Department
 $Id=203
-$Name=Windows
+$Name=Quality Assurance
 /Department
 /Departments
 /Employee

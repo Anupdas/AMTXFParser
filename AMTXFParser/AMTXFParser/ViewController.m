@@ -8,6 +8,7 @@
 
 #import "ViewController.h"
 #import "NSString+TXFParser.h"
+#import "NSObject+TXFWriter.h"
 
 @interface ViewController ()
 
@@ -18,6 +19,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
+    [self parseTXFFile];
 }
 
 - (NSString *)txfStringForName:(NSString *)fileName{
@@ -28,9 +30,10 @@
                                                error:nil];
 }
 
-- (IBAction)parseButtonClick:(UIButton *)sender {
-    NSString *txfString = [self txfStringForName:nil];
+- (void)parseTXFFile{
+    NSString *txfString = [self txfStringForName:@"Employees"];
     id object = [txfString TXFObject];
+    NSLog(@"JSON : %@",[object JSONString]);
     
 }
 

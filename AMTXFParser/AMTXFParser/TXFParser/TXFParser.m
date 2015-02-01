@@ -1,17 +1,16 @@
 //
-//  AMTXFParser.m
-//  AMDTXFParser
+//  ViewController.m
+//  AMTXFParser
 //
-//  Created by Anoop Mohandas on 24/01/15.
+//  Created by Anoop Mohandas on 01/02/15.
 //  Copyright (c) 2015 Anoop Mohandas. All rights reserved.
 //
 
+
 #import "TXFParser.h"
-#import <OrderedDictionary/OrderedDictionary.h>
 
 static NSString *const kBodyText = @"TXFText";
 static NSString *const kArray    = @"TXFArray";
-static NSString *const kTXFNull    = @"$#!";
 
 typedef enum {
     TXFParsingTypeObject = 0,
@@ -23,7 +22,7 @@ typedef enum {
 @interface TXFParser ()
 
 /*Temporary variable to hold values of an object*/
-@property (nonatomic, strong) MutableOrderedDictionary *dict;
+@property (nonatomic, strong) NSMutableDictionary *dict;
 
 /*An array to hold the hierarchial data of all nodes encountered while parsing*/
 @property (nonatomic, strong) NSMutableArray *stack;
@@ -99,10 +98,6 @@ typedef enum {
     bodyString = [bodyString stringByTrimmingCharactersInSet:[NSCharacterSet illegalCharacterSet]];
     if (!bodyString.length) return;
     
-    //A workaround for removing stray notes what might appear in models Viz. Member Notes
-    if ([bodyString isEqualToString:@"&0"]) {
-        bodyString = kTXFNull;
-    }
     self.dict[kBodyText] = bodyString;
 }
 
@@ -113,7 +108,7 @@ typedef enum {
 #pragma mark -
 
 - (void)parserFoundObjectStartForKey:(NSString *)key{
-    self.dict = [MutableOrderedDictionary new];
+    self.dict = [NSMutableDictionary new];
     [self.stack addObject:self.dict];
 }
 
@@ -217,10 +212,10 @@ typedef enum {
 }
 
 /*Wraps Object with a key for the serializer to generate txf tag*/
-- (MutableOrderedDictionary *)wrapObject:(id)value withKey:(NSString *)key{
-//    if (!key ||!value) {
-//        return [@{} mutableCopy];
-//    }
+- (NSMutableDictionary *)wrapObject:(id)value withKey:(NSString *)key{
+    if (!key ||!value) {
+        return [@{} mutableCopy];
+    }
     return [@{key:value} mutableCopy];
 }
 
